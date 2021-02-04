@@ -1,0 +1,64 @@
+@import "~antd/dist/antd.css";
+
+.App {
+  text-align: center;
+  min-height: 100vh;
+  width: 100%;
+  min-height: 100%;
+  background-image: linear-gradient(to top, #a8edea 0%, #fed6e3 100%);
+}
+
+.App-name {
+  padding-top: 10px;
+}
+.search-form {
+  min-height: 3vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-bar {
+  width: 50%;
+  border: none;
+  padding: 10px;
+}
+
+.search-button {
+  border: none;
+  padding: 10px 20px;
+  background-color: #a8edea;
+  color: black;
+}
+
+.recipes {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
+.card-container {
+  width: 20rem;
+}
+
+.card-button {
+  text-align: center;
+}
+
+.card-description {
+  font-size: 15px;
+}
+
+.Recipe-Details {
+  text-align: center;
+}
+
+.details {
+  text-align: center;
+}
+
+.label {
+  text-align: center;
+  /* font-weight: bold; */
+}
