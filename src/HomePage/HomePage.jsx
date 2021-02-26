@@ -1,25 +1,27 @@
-import "antd/dist/antd.css";
 import React, { useEffect, useState } from "react";
-import Recipe from "./Recipe";
-import "./App.css";
+import "antd/dist/antd.css";
+import { Button } from "antd";
+import { Recipe } from "./Recipe";
+import { Link } from "react-router-dom";
+import "../_styles/App.css";
+import axios from "axios";
 
-const App = () => {
+function HomePage() {
   const [recipes, setRecipes] = useState([]);
   const [search, setSearch] = useState("");
   const [query, setQuery] = useState("");
 
-  const APP_ID = "23db6d34";
-  const APP_KEY = "39fd7293574795c7536a1aaf5163e85a"; // edamam
-  // const APP_KEY = "a3cc1d73eff648ff955048012275c85a"; // spoonacular
+  const apiKey = "a3cc1d73eff648ff955048012275c85a"; // spoonacular
 
   useEffect(() => {
     const getRecipes = async () => {
-      const response = await fetch(
-        `https://api.edamam.com/search?q=${query}&app_id=${APP_ID}&app_key=${APP_KEY}&from=0&to=3&calories=591-722&health=alcohol-free`
+      const response = await axios(
+        `https://api.spoonacular.com/recipes/complexSearch?query=${query}&apiKey=${apiKey}&addRecipeInformation=true&number=9`
       );
-      const data = await response.json();
-      console.log(data.hits);
-      setRecipes(data.hits);
+      console.log(response);
+      const data = await response.data;
+      console.log(data.results);
+      setRecipes(data.results);
     };
 
     getRecipes();
@@ -41,6 +43,29 @@ const App = () => {
   return (
     <main className="App">
       <h1 className="App-name">WELCOME TO MY RECIPE APP!</h1>
+
+      {/* login register logout */}
+      <div>
+        <Link to="./login">
+          <Button type="primary" danger>
+            Log In
+          </Button>
+        </Link>
+        <Link to="./register">
+          <Button type="primary" danger>
+            Register
+          </Button>
+        </Link>
+        <Link to="/login">
+          <Button type="primary" danger>
+            Log Out
+          </Button>
+        </Link>
+      </div>
+
+      <br />
+
+      {/* search form */}
       <form className="search-form" onSubmit={getSearch}>
         <input
           type="text"
@@ -56,11 +81,11 @@ const App = () => {
 
       <section className="recipes">
         {recipes.map((recipe) => (
-          <Recipe key={recipe.recipe.label} recipe={recipe.recipe} />
+          <Recipe key={recipe.id} recipe={recipe} />
         ))}
       </section>
     </main>
   );
-};
+}
 
-export default App;
+export { HomePage };
