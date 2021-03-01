@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
-import "antd/dist/antd.css";
 import { Button } from "antd";
 import { Recipe } from "./Recipe";
 import { Link } from "react-router-dom";
-import "../_styles/App.css";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import "antd/dist/antd.css";
+import "../_styles/App.css";
 
 function HomePage() {
   const [recipes, setRecipes] = useState([]);
   const [search, setSearch] = useState("");
   const [query, setQuery] = useState("");
+  const dispatch = useDispatch();
 
   const apiKey = "a3cc1d73eff648ff955048012275c85a"; // spoonacular
 
@@ -30,7 +32,7 @@ function HomePage() {
   // update search while typing
   const updateSearch = (e) => {
     setSearch(e.target.value);
-    console.log(search);
+    // console.log(search);
   };
 
   // only setQuery when finish typing, setSearch back to empty string for the next search
