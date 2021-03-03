@@ -129,11 +129,14 @@ function RecipeDetails() {
 
           <br />
           <Row className="row-container">
-            <Title level={4}>Ingredients</Title>
-            <br />
-            <div style={{ fontSize: "17px", textAlign: "justify" }}>
-              {recipeIngres}
-            </div>
+            <Col md={4}>
+              <Title level={4}>Ingredients</Title>
+            </Col>
+            <Col md={12} className="col-container">
+              <div style={{ fontSize: "17px", textAlign: "justify" }}>
+                {recipeIngres}
+              </div>
+            </Col>
           </Row>
         </main>
       </Content>
