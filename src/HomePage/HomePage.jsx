@@ -1,38 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { Button } from "antd";
 import { Recipe } from "./Recipe";
 import { Link } from "react-router-dom";
+import { recipeActions } from "../_actions";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
+import { Button } from "antd";
+
 import "antd/dist/antd.css";
 import "../_styles/App.css";
 
 function HomePage() {
-  const [recipes, setRecipes] = useState([]);
   const [search, setSearch] = useState("");
   const [query, setQuery] = useState("");
   const dispatch = useDispatch();
 
-  const apiKey = "a3cc1d73eff648ff955048012275c85a"; // spoonacular
-
+  // dispatch to get recipes by calling API in actions
   useEffect(() => {
-    const getRecipes = async () => {
-      const response = await axios(
-        `https://api.spoonacular.com/recipes/complexSearch?query=${query}&apiKey=${apiKey}&addRecipeInformation=true&number=9`
-      );
-      console.log(response);
-      const data = await response.data;
-      console.log(data.results);
-      setRecipes(data.results);
-    };
-
-    getRecipes();
+    dispatch(recipeActions.getRecipe(query));
   }, [query]); // only call API when finish typing query
+  const recipes = useSelector((state) => state.recipe.data);
 
   // update search while typing
   const updateSearch = (e) => {
     setSearch(e.target.value);
-    // console.log(search);
   };
 
   // only setQuery when finish typing, setSearch back to empty string for the next search

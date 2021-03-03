@@ -2,8 +2,7 @@ import React from "react";
 import "../_styles/App.css";
 
 import { Link, useLocation } from "react-router-dom";
-import { Descriptions, Typography, List } from "antd";
-import { Layout, Menu, Row, Col } from "antd";
+import { Layout, Menu, Row, Col, Typography } from "antd";
 import {
   ClockCircleOutlined,
   HeartOutlined,
@@ -16,7 +15,7 @@ const { Header, Content, Footer } = Layout;
 function RecipeDetails() {
   let location = useLocation();
   let recipe = location.state.recipe;
-  console.log(recipe);
+  // console.log(recipe);
 
   const cookTime = recipe.readyInMinutes;
   const dishList = recipe.dishTypes;
@@ -30,6 +29,34 @@ function RecipeDetails() {
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
+
+  const summary = `${recipe.summary}`;
+
+  const instructions = recipe.analyzedInstructions[0].steps;
+  // console.log(instructions);
+
+  const ingres = [];
+  const steps = [];
+
+  instructions.forEach((element) => {
+    const ingredients = element.ingredients;
+    ingredients.forEach((ingredient) => ingres.push(ingredient.name));
+    steps.push(element.step);
+  });
+
+  const recipeSteps = steps.map((step, index) => (
+    <Text>
+      {index + 1}. {step} <br />
+    </Text>
+  ));
+
+  const recipeIngres = ingres.map((ingre, index) => (
+    <Text>
+      {capitalizeFirstLetter(ingre)} <br />
+    </Text>
+  ));
+  console.log(recipeSteps);
+  console.log(recipeIngres);
 
   return (
     <Layout className="layout">
@@ -46,14 +73,12 @@ function RecipeDetails() {
 
       <Content style={{ padding: "30px" }}>
         <main className="Recipe-Details">
-          <Row>
-            <Col md={12}>
+          <Row className="row-container">
+            <Col md={12} className="col-container">
               <img src={recipe.image} alt="recipe" className="thumbnail-img" />
             </Col>
             <Col md={12}>
-              <Title level={3} style={{ paddingTop: 10 }}>
-                {recipe.title}
-              </Title>
+              <Title style={{ paddingTop: 10 }}>{recipe.title}</Title>
               <Title level={5}>
                 By <Link to={recipe.sourceUrl}>{recipe.sourceName}</Link>
               </Title>
@@ -62,65 +87,54 @@ function RecipeDetails() {
             </Col>
           </Row>
 
-          <Row style={{ paddingTop: "30px" }}>
-            <Col md={8}>
-              <ClockCircleOutlined style={{ fontSize: "30px" }} />
-              {"   "}
+          <Row style={{ paddingTop: "30px" }} className="row-container">
+            <Col md={8} className="col-container">
+              <ClockCircleOutlined className="header-icon" />
               <Text style={{ fontSize: "15px" }}>
                 Cook Time: {cookTime} mins
               </Text>
             </Col>
-            <Col md={8}>
-              <HeartOutlined style={{ fontSize: "30px" }} />
-              {"   "}
+            <Col md={8} className="col-container">
+              <HeartOutlined className="header-icon" />
               <Text style={{ fontSize: "15px" }}>
                 Health Score: {recipe.healthScore}
               </Text>
             </Col>
-            <Col md={8}>
-              <SmileOutlined style={{ fontSize: "30px" }} />
-              {"   "}
+            <Col md={8} className="col-container">
+              <SmileOutlined className="header-icon" />
               <Text style={{ fontSize: "15px" }}>
-                Servings: {recipe.servings}
+                Serves: {recipe.servings}
               </Text>
             </Col>
           </Row>
-          {/* <Descriptions
-            title="Recipe Details"
-            layout="vertical"
-            bordered
-            // column={3}
-            style={{ padding: 30 }}
-            column={{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}
-            labelStyle={{ fontWeight: "bold" }}
-          >
-            <Descriptions.Item label="Summary" className="label">
-              {summary}
-            </Descriptions.Item>
-            <Descriptions.Item label="Diet Labels" className="label">
-              {dietLabels}
-            </Descriptions.Item>
-            <Descriptions.Item label="Servings" className="label">
-              {servings}
-            </Descriptions.Item>
-            <Descriptions.Item label="Source" className="label">
-              {source}
-            </Descriptions.Item>
-            <Descriptions.Item label="Dish Types" className="label">
-              <List
-                dataSource={dishTypes}
-                itemLayout="vertical"
-                renderItem={(type) => <List.Item>{type}</List.Item>}
+          <br />
+          <Row className="row-container">
+            <Title level={4}>Summary</Title>
+            {
+              <div
+                style={{ fontSize: "17px", textAlign: "justify" }}
+                dangerouslySetInnerHTML={{
+                  __html: summary,
+                }}
               />
-            </Descriptions.Item>
-            <Descriptions.Item label="Ingredients" span={2} className="label">
-              <List
-                dataSource={ingredients}
-                itemLayout="vertical"
-                renderItem={(item) => <List.Item>{item}</List.Item>}
-              />
-            </Descriptions.Item>
-          </Descriptions> */}
+            }
+          </Row>
+          <br />
+          <Row className="row-container">
+            <Title level={4}>Method</Title>
+            <div style={{ fontSize: "17px", textAlign: "justify" }}>
+              {recipeSteps}
+            </div>
+          </Row>
+
+          <br />
+          <Row className="row-container">
+            <Title level={4}>Ingredients</Title>
+            <br />
+            <div style={{ fontSize: "17px", textAlign: "justify" }}>
+              {recipeIngres}
+            </div>
+          </Row>
         </main>
       </Content>
 

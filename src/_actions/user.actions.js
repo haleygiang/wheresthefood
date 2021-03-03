@@ -1,4 +1,4 @@
-import { userConstants } from "../_constants/user.constants";
+import { userConstants } from "../_constants";
 import { history } from "../_helpers/history";
 import { alertActions } from "./alert.actions";
 import { userService } from '../_services';
@@ -20,13 +20,14 @@ function login(username, password, from) {
     // call async task
     userService.login(username, password)
       .then(
+
         // dispatch LOGIN_SUCCESS
         user => {
           dispatch(success({ user }));
-          // history.push(from)
           history.push(from);
           window.location.reload(true);
         },
+
         // dispatch LOGIN_FAILURE
         error => {
           dispatch(failure(error.toString()));
